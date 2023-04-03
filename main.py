@@ -15,7 +15,8 @@ URLS = [
     "https://ekaterinburg.drom.ru/honda/stepwgn/generation5/restyling1/bez-probega/?minyear=2018&pts=2&damaged=2&unsold=1&distance=500",
     "https://ekaterinburg.drom.ru/toyota/noah/generation3/restyling1/bez-probega/?minyear=2018&pts=2&damaged=2&unsold=1&distance=500",
     "https://ekaterinburg.drom.ru/toyota/voxy/generation3/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
-    "https://ekaterinburg.drom.ru/toyota/esquire/generation1/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1"
+    "https://ekaterinburg.drom.ru/toyota/esquire/generation1/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/toyota/corolla_axio/generation2/restyling2/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1"
 ]
 
 
@@ -23,7 +24,6 @@ class DromJapan:
     def __init__(self):
         self.html = ""
         self.soup = ""
-        self.cnt_item = ""
 
 
     @staticmethod
@@ -56,7 +56,8 @@ class DromJapan:
     def get_cnt_item(self):
         temp = self.soup.find("div", class_="css-1ksi09z eckkbc90")
         if temp:
-            self.cnt_item = int(temp.text.split(" ")[0].strip())
+            return int(temp.text.split(" ")[0].strip())
+        return 0
     
 
     def get_data(self, url):
@@ -64,7 +65,8 @@ class DromJapan:
         data = []
         cnt = 0
         lenPage = 20
-        cnt_item = self.cnt_item
+        cnt_item = self.get_cnt_item()
+        # print(cnt_item)
         cnt_page = 1
         num = self.soup.find_all("div", class_="e15hqrm30")
         if num:
