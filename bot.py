@@ -45,7 +45,7 @@ async def send(message : types.Message):
     if message.text == "History":
         await message.delete()
         out_history = out()
-        await bot.send_message(message.from_user.id, out_history)
+        await bot.send_message(message.from_user.id, out_history, disable_web_page_preview=True)
 
 
 executor.start_polling(dp, skip_updates=True)
