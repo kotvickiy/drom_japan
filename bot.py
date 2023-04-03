@@ -24,9 +24,13 @@ b2 = KeyboardButton("Old")
 def out(file_name):
     try:
         with open(file_name) as file:
-            return [i.strip() for i in file.readlines()]
+            res = [i.strip() for i in file.readlines()]
+            if res:
+                return res
+            else:
+                return ["empty"]
     except:
-        return "no file"
+        return ["no file"]
 
 
 @dp.message_handler(admin_only, content_types=['any'])
