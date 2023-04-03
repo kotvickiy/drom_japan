@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 from config import TOKEN, CHAT_ID
+from datetime import datetime
 
 
 URLS = [
@@ -128,8 +129,12 @@ class DromJapan:
 
 
 def main():
-    dj = DromJapan()
-    dj.run()
+    try:
+        dj = DromJapan()
+        dj.run()
+        print("[ + ]", datetime.now().strftime('%d-%m-%Y %H:%M:%S'))
+    except Exception as ex:
+        print(f"[ - ] {datetime.now().strftime('%d-%m-%Y %H:%M:%S')} {ex}")
 
 
 if __name__ == '__main__':
