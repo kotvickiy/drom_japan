@@ -42,6 +42,17 @@ class DromJapan:
     @staticmethod
     def replace_url(url):
         return url.replace("/?", "/page1/?")
+    
+
+    @staticmethod
+    def checking_the_link_for_compliance_with_the_departure(link):
+        response = requests.get(link)
+        html = response.text
+        soup = BeautifulSoup(html, 'lxml')
+        check = soup.find("div", class_="edsrp6u2")
+        if check:
+            return True
+        return False
 
 
     def get_html(self, url):
@@ -104,7 +115,8 @@ class DromJapan:
                 data_news.append(new)
         self.write_append(data_news, "./old.txt")
         for old in odls:
-            if old not in news:
+            if old not in news and self.checking_the_link_for_compliance_with_the_departure(old):
+                # print(old)
                 lst_res.append(old)
         if not os.path.exists('./history.txt'):
             open("./history.txt", "w").close()
