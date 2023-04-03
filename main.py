@@ -7,9 +7,14 @@ from config import TOKEN, CHAT_ID
 
 URLS = [
     "https://ekaterinburg.drom.ru/toyota/aqua/generation1/restyling2/bez-probega/?distance=500&minyear=2018&fueltype=5&pts=2&damaged=2&unsold=1",
-    "https://ekaterinburg.drom.ru/nissan/note/generation2/restyling1/bez-probega/?distance=500&minyear=2018&fueltype=5&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/nissan/note/generation2/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
     "https://ekaterinburg.drom.ru/toyota/vitz/generation3/restyling2/bez-probega/?distance=500&minyear=2018&fueltype=1&pts=2&damaged=2&unsold=1",
-    "https://ekaterinburg.drom.ru/honda/freed/generation2/restyling0/bez-probega/?distance=500&minyear=2018&fueltype=1&pts=2&damaged=2&unsold=1"
+    "https://ekaterinburg.drom.ru/honda/freed/generation2/restyling0/bez-probega/?distance=500&minyear=2018&fueltype=1&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/toyota/sienta/generation2/restyling1/bez-probega/?distance=500&minyear=2018&fueltype=1&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/honda/stepwgn/generation5/restyling1/bez-probega/?minyear=2018&pts=2&damaged=2&unsold=1&distance=500",
+    "https://ekaterinburg.drom.ru/toyota/noah/generation3/restyling1/bez-probega/?minyear=2018&pts=2&damaged=2&unsold=1&distance=500",
+    "https://ekaterinburg.drom.ru/toyota/voxy/generation3/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/toyota/esquire/generation1/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1"
 ]
 
 
@@ -48,7 +53,9 @@ class DromJapan:
     
 
     def get_cnt_item(self):
-        self.cnt_item = int(self.soup.find("div", class_="css-1ksi09z eckkbc90").text.split(" ")[0].strip())
+        temp = self.soup.find("div", class_="css-1ksi09z eckkbc90")
+        if temp:
+            self.cnt_item = int(temp).text.split(" ")[0].strip()
     
 
     def get_data(self, url):
