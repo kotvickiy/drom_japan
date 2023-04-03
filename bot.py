@@ -18,12 +18,13 @@ def kb():
 
 
 b1 = KeyboardButton("History")
+b2 = KeyboardButton("Old")
 
 
-def out():
+def out(file_name):
     try:
-        with open(f"./history.txt") as file:
-            return file.read()
+        with open(file_name) as file:
+            return [i.strip() for i in file.readlines()]
     except:
         return "no file"
 
@@ -37,15 +38,25 @@ async def handle_unwanted_users(message: types.Message):
 @dp.message_handler(commands=['start'])
 async def commands_start(message : types.Message):
     await message.delete()
-    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1))
+    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1, b2))
 
 
 @dp.message_handler()
 async def send(message : types.Message):    
     if message.text == "History":
-        await message.delete()
-        out_history = out()
-        await bot.send_message(message.from_user.id, out_history, disable_web_page_preview=True)
+        out_history = out("./history.txt")
+        if len(out_history) > 50:
+            for x in range(0, len(out_history), 50):
+                await bot.send_message(message.from_user.id, "\n".join(out_history[x:x+50]), disable_web_page_preview=True)
+        else:
+            await bot.send_message(message.from_user.id, "\n".join(out_history), disable_web_page_preview=True)
+    elif message.text == "Old":
+        out_old = out("./old.txt")
+        if len(out_old) > 50:
+            for x in range(0, len(out_old), 50):
+                await bot.send_message(message.from_user.id, "\n".join(out_old[x:x+50]), disable_web_page_preview=True)
+        else:
+            await bot.send_message(message.from_user.id, "\n".join(out_old), disable_web_page_preview=True)
 
 
 executor.start_polling(dp, skip_updates=True)
