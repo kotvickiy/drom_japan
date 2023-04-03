@@ -55,7 +55,7 @@ class DromJapan:
     def get_cnt_item(self):
         temp = self.soup.find("div", class_="css-1ksi09z eckkbc90")
         if temp:
-            self.cnt_item = int(temp).text.split(" ")[0].strip()
+            self.cnt_item = int(temp.text.split(" ")[0].strip())
     
 
     def get_data(self, url):
