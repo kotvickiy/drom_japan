@@ -19,6 +19,7 @@ def kb():
 
 b1 = KeyboardButton("History")
 b2 = KeyboardButton("Old")
+b3 = KeyboardButton("Out")
 
 
 def out(file_name):
@@ -42,7 +43,7 @@ async def handle_unwanted_users(message: types.Message):
 @dp.message_handler(commands=['start'])
 async def commands_start(message : types.Message):
     await message.delete()
-    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1, b2))
+    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1, b2, b3))
 
 
 @dp.message_handler()
@@ -56,6 +57,13 @@ async def send(message : types.Message):
             await bot.send_message(message.from_user.id, "\n".join(out_history), disable_web_page_preview=True)
     elif message.text == "Old":
         out_old = out("./old.txt")
+        if len(out_old) > 50:
+            for x in range(0, len(out_old), 50):
+                await bot.send_message(message.from_user.id, "\n".join(out_old[x:x+50]), disable_web_page_preview=True)
+        else:
+            await bot.send_message(message.from_user.id, "\n".join(out_old), disable_web_page_preview=True)
+    elif message.text == "Out":
+        out_old = out("./out.log")
         if len(out_old) > 50:
             for x in range(0, len(out_old), 50):
                 await bot.send_message(message.from_user.id, "\n".join(out_old[x:x+50]), disable_web_page_preview=True)

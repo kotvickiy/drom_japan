@@ -16,7 +16,10 @@ URLS = [
     "https://ekaterinburg.drom.ru/toyota/noah/generation3/restyling1/bez-probega/?minyear=2018&pts=2&damaged=2&unsold=1&distance=500",
     "https://ekaterinburg.drom.ru/toyota/voxy/generation3/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
     "https://ekaterinburg.drom.ru/toyota/esquire/generation1/restyling1/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
-    "https://ekaterinburg.drom.ru/toyota/corolla_axio/generation2/restyling2/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1"
+    "https://ekaterinburg.drom.ru/toyota/corolla_axio/generation2/restyling2/bez-probega/?distance=500&minyear=2018&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/honda/vezel/generation1/restyling1/bez-probega/?minyear=2018&maxyear=2020&pts=2&damaged=2&unsold=1&distance=500",
+    "https://ekaterinburg.drom.ru/toyota/corolla_fielder/generation3/restyling2/bez-probega/?minyear=2018&maxyear=2020&pts=2&damaged=2&unsold=1",
+    "https://ekaterinburg.drom.ru/toyota/prius/generation3/bez-probega/?pts=2&damaged=2&unsold=1&distance=500"
 ]
 
 
@@ -50,7 +53,8 @@ class DromJapan:
         html = response.text
         soup = BeautifulSoup(html, 'lxml')
         check = soup.find("div", class_="edsrp6u2")
-        if check:
+        check2 = soup.find("div", class_="e4ozpu0")
+        if check or check2:
             return True
         return False
 
