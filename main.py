@@ -59,6 +59,7 @@ class DromJapan:
             return True
         return False
     
+    
     @staticmethod
     def check_history(his_data, new_data):
         res = []
