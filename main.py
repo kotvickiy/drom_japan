@@ -58,6 +58,16 @@ class DromJapan:
         if check or check2:
             return True
         return False
+    
+    @staticmethod
+    def check_history(his_data, new_data):
+        res = []
+        for h in his_data:
+            print(h, new_data)
+            if h in new_data:
+                continue
+            res.append(h)
+        return res
 
 
     def get_html(self, url):
@@ -82,13 +92,11 @@ class DromJapan:
         cnt = 0
         lenPage = 20
         cnt_item = self.get_cnt_item()
-        # print(cnt_item)
         cnt_page = 1
         num = self.soup.find_all("div", class_="e15hqrm30")
         if num:
             cnt_page = int(num[-1].text.strip())
         while cnt < cnt_page:
-            # print(url)
             if cnt_item < 20:
                 lenPage = cnt_item
             responce = requests.get(url)
@@ -121,16 +129,17 @@ class DromJapan:
         self.write_append(data_news, "./old.txt")
         for old in odls:
             if old not in news and self.checking_the_link_for_compliance_with_the_departure(old):
-                # print(old)
                 lst_res.append(old)
         if not os.path.exists('./history.txt'):
             open("./history.txt", "w").close()
         historys = self.lst_read_file("./history.txt")
+        his_check = self.check_history(historys, news)
+        open("./history.txt", "w").close()
         for i in lst_res:
-            if i not in historys:
-                his_res.append(i)
+            if i not in his_check:
+                his_check.append(i)
                 requests.get(f'https://api.telegram.org/bot{TOKEN}/sendMessage', params=dict(chat_id=CHAT_ID,text=i, disable_web_page_preview=True))
-        self.write_append(his_res, "history.txt")
+        self.write_append(his_check, "history.txt")
         open("./old.txt", "w").close()
         self.write_append(news, "./old.txt")      
     
