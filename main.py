@@ -63,7 +63,6 @@ class DromJapan:
     def check_history(his_data, new_data):
         res = []
         for h in his_data:
-            print(h, new_data)
             if h in new_data:
                 continue
             res.append(h)

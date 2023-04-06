@@ -51,24 +51,28 @@ async def send(message : types.Message):
     if message.text == "History":
         out_history = out("./history.txt")
         if len(out_history) > 50:
-            for x in range(0, len(out_history), 50):
-                await bot.send_message(message.from_user.id, "\n".join(out_history[x:x+50]), disable_web_page_preview=True)
+            temp = [f"{out_history.index(i) + 1}: {i}" for i in out_history]
+            for x in range(0, len(temp), 50):
+                await bot.send_message(message.from_user.id, "\n".join(temp[x:x+50]), disable_web_page_preview=True)
         else:
-            await bot.send_message(message.from_user.id, "\n".join(out_history), disable_web_page_preview=True)
+            temp = [f"{out_history.index(i) + 1}: {i}" for i in out_history]
+            await bot.send_message(message.from_user.id, "\n".join(temp), disable_web_page_preview=True)
     elif message.text == "Old":
         out_old = out("./old.txt")
         if len(out_old) > 50:
+            temp = [f"{out_old.index(i) + 1}: {i}" for i in out_old]
             for x in range(0, len(out_old), 50):
-                await bot.send_message(message.from_user.id, "\n".join(out_old[x:x+50]), disable_web_page_preview=True)
+                await bot.send_message(message.from_user.id, "\n".join(temp[x:x+50]), disable_web_page_preview=True)
         else:
+            temp = [f"{out_old.index(i) + 1}: {i}" for i in out_old]
             await bot.send_message(message.from_user.id, "\n".join(out_old), disable_web_page_preview=True)
     elif message.text == "Out":
-        out_old = out("./out.log")
-        if len(out_old) > 50:
-            for x in range(0, len(out_old), 50):
-                await bot.send_message(message.from_user.id, "\n".join(out_old[x:x+50]), disable_web_page_preview=True)
+        out_log = out("./out.log")
+        if len(out_log) > 50:
+            for x in range(0, len(out_log), 50):
+                await bot.send_message(message.from_user.id, "\n".join(out_log[x:x+50]), disable_web_page_preview=True)
         else:
-            await bot.send_message(message.from_user.id, "\n".join(out_old), disable_web_page_preview=True)
+            await bot.send_message(message.from_user.id, "\n".join(out_log), disable_web_page_preview=True)
 
 
 executor.start_polling(dp, skip_updates=True)
