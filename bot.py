@@ -3,6 +3,7 @@ from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import executor
+import os
 
 
 bot = Bot(token=TOKEN)
@@ -20,6 +21,7 @@ def kb():
 b1 = KeyboardButton("History")
 b2 = KeyboardButton("Old")
 b3 = KeyboardButton("Out")
+b4 = KeyboardButton("rm out.log")
 
 
 def out(file_name):
@@ -34,6 +36,14 @@ def out(file_name):
         return ["no file"]
 
 
+def rm_out():
+    if os.path.exists("./out.log"):
+        os.system(f"rm ./out.log")
+        return f"out.log deleted!"
+    else:
+        return "no file"
+
+
 @dp.message_handler(admin_only, content_types=['any'])
 async def handle_unwanted_users(message: types.Message):
     await bot.delete_message(message.chat.id, message.message_id)
@@ -43,7 +53,7 @@ async def handle_unwanted_users(message: types.Message):
 @dp.message_handler(commands=['start'])
 async def commands_start(message : types.Message):
     await message.delete()
-    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1, b2, b3))
+    await bot.send_message(message.from_user.id, "/start", reply_markup=kb().row(b1, b3).row(b2, b4))
 
 
 @dp.message_handler()
@@ -73,6 +83,9 @@ async def send(message : types.Message):
                 await bot.send_message(message.from_user.id, "\n".join(out_log[x:x+50]), disable_web_page_preview=True)
         else:
             await bot.send_message(message.from_user.id, "\n".join(out_log), disable_web_page_preview=True)
+    elif message.text == "rm out.log":
+        del_text = rm_out()
+        await bot.send_message(message.from_user.id, del_text)
 
 
 executor.start_polling(dp, skip_updates=True)
