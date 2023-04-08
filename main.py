@@ -71,8 +71,8 @@ class DromJapan:
 
 
     def get_html(self, url):
-        responce = requests.get(url)
-        self.html = responce.text
+        response = requests.get(url)
+        self.html = response.text
     
 
     def get_soup(self):
@@ -99,8 +99,8 @@ class DromJapan:
         while cnt < cnt_page:
             if cnt_item < 20:
                 lenPage = cnt_item
-            responce = requests.get(url)
-            soup = BeautifulSoup(responce.text, "lxml")
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "lxml")
             items = soup.find_all("a", class_="css-xb5nz8 e1huvdhj1")
             for item in items[:lenPage]:
                 name = item.get("href")
